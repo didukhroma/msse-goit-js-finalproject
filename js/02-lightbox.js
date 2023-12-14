@@ -21,4 +21,5 @@ galleryRef.insertAdjacentHTML("afterbegin", markup);
 new SimpleLightbox(".gallery a", {
   captionsData: "alt",
   captionDelay: 250,
+  animationSpeed: 500,
 });
