@@ -51,7 +51,6 @@ const createModal = (link) => {
 // Keyboard handler
 function handleKeyboard(e) {
   if (e.key === "Escape") {
-    e.preventDefault();
     this.close();
   }
 }
