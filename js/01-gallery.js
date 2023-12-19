@@ -22,15 +22,21 @@ const markup = galleryItems
 // Click handler
 const handleClick = (event) => {
   event.preventDefault();
-  if (event.target.nodeName !== "IMG") return;
+  if (event.target === event.currentTarget) return;
+
   const link = event.target.dataset.source;
 
+  createModal(link);
+};
+// Create modal
+const createModal = (link) => {
   const opt = {
-    onShow: () => {
-      document.addEventListener("keydown", handleKeyboard);
+    onShow: (instance) => {
+      instance.customProp = handleKeyboard.bind(instance);
+      document.addEventListener("keydown", instance.customProp);
     },
-    onClose: () => {
-      document.removeEventListener("keydown", handleKeyboard);
+    onClose: (instance) => {
+      document.removeEventListener("keydown", instance.customProp);
     },
   };
 
@@ -40,12 +46,15 @@ const handleClick = (event) => {
   `,
     opt
   );
-
-  const handleKeyboard = (e) =>
-    instance.visible() && e.key === "Escape" && instance.close();
-
   instance.show();
 };
+// Keyboard handler
+function handleKeyboard(e) {
+  if (e.key === "Escape") {
+    e.preventDefault();
+    this.close();
+  }
+}
 
 if (!galleryRef) console.error("Gallery not found");
 // Insert markup
